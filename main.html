@@ -1,0 +1,433 @@
+<html>
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>chart</title>
+      <style>
+        body {
+          background: rgb(245, 245, 245);
+        }
+
+        .chartBlock {
+          position: relative;
+          width: 100%;
+          display: flex;
+          flex-wrap: wrap;
+        }
+
+        .btnBlock {
+          width: 400px;
+          height: 550px;
+          margin: 10px;
+          padding: 10px;
+          background: rgb(199, 199, 199);
+          border-radius: 10px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+
+        .btnDialog {
+          width: 100px;
+          height: 100px;
+          border-radius: 50%;
+          border: rgb(160, 160, 160);
+        }
+
+        .popup-container {
+          width: 30%;
+          height: 40%;
+          display: none;
+          border-radius: 10px;
+          background: white;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+          padding: 10px;
+          position: absolute; /* 设置要垂直居中的 div 为绝对定位 */
+          top: 50%; /* 将 div 的上边距设置为视口高度的一半 */
+          left: 50%; /* 将 div 的左边距设置为视口宽度的一半 */
+          transform: translate(
+            -50%,
+            -50%
+          ); /* 使用 transform 移动 div，使其垂直居中 */
+          z-index: 9998;
+        }
+
+        .form-group {
+          margin-bottom: 20px;
+        }
+
+        label {
+          display: block;
+          font-weight: bold;
+          margin-bottom: 5px;
+        }
+
+        input,
+        select {
+          width: 100%;
+          padding: 10px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          outline: none;
+        }
+
+        input[type="submit"] {
+          width: 40%;
+          padding: 10px;
+          background-color: #3498db;
+          color: #fff;
+          border: none;
+          border-radius: 5px;
+          float: right;
+          cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+          background-color: #2980b9;
+        }
+
+        .btnClose {
+          width: 40%;
+          padding: 10px;
+          background-color: #3498db;
+          color: #fff;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+        }
+
+        .btnClose:hover {
+          background-color: #2980b9;
+        }
+      </style>
+      <script src="./dist/chart.min.js"></script>
+    </head>
+    <body>
+      <!-- 圖表顯示區域 -->
+      <div id="chartBlock" class="chartBlock">
+        <div class="btnBlock" onclick="openParameterDialog()">
+          <button class="btnDialog">
+            <h1 style="color: rgb(149, 148, 148)">+</h1>
+          </button>
+        </div>
+      </div>
+
+      <!-- 圖表參數表單 -->
+      <div id="popupContainer" class="popup-container">
+        <div style="overflow: auto; height: 90%">
+          <h2>Block</h2>
+
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" placeholder="" autocomplete="off" />
+            <label for="name">Description</label>
+            <input
+              type="text"
+              id="description"
+              placeholder=""
+              autocomplete="off"
+            />
+            <label for="block_type">Block Type</label>
+            <select id="block_type">
+              <option value="pie_chart">pie chart</option>
+              <option value="line_chart">line chart</option>
+              <option value="bar_chart">bar chart</option>
+              <option value="table" disabled>table</option>
+              <option value="live" disabled>live</option>
+              <option value="text_block" disabled>text block</option>
+              <option value="text_block_list" disabled>text block list</option>
+            </select>
+          </div>
+
+          <h2>Options</h2>
+
+          <div class="form-group" id="optionParameter">
+            <!-- 共同參數(有給預設值) -->
+            <label for="background_color">Background Color</label>
+            <input
+              type="color"
+              id="background_color"
+              placeholder=""
+              autocomplete="off"
+              value="#ffffff"
+            />
+            <label for="tooltip">Tip (數據上是否顯示資訊提示)</label>
+            <input
+              type="checkbox"
+              id="tooltip"
+              placeholder=""
+              autocomplete="off"
+              checked
+            />
+            <label for="title_font_size">Title Font Size</label>
+            <input
+              type="text"
+              id="title_font_size"
+              placeholder=""
+              autocomplete="off"
+              value="20px"
+            />
+            <label for="title_font_color">Title Font Color</label>
+            <input
+              type="color"
+              id="title_font_color"
+              placeholder=""
+              autocomplete="off"
+              value="#000000"
+            />
+            <label for="title_top">Title Top</label>
+            <input
+              type="text"
+              id="title_top"
+              placeholder=""
+              autocomplete="off"
+              value="0%"
+            />
+            <label for="title_bottom">Title Bottom</label>
+            <input
+              type="text"
+              id="title_bottom"
+              placeholder=""
+              autocomplete="off"
+              value="0%"
+            />
+            <label for="title_left">Title Left</label>
+            <input
+              type="text"
+              id="title_left"
+              placeholder=""
+              autocomplete="off"
+              value="0%"
+            />
+            <label for="title_right">Title Right</label>
+            <input
+              type="text"
+              id="title_right"
+              placeholder=""
+              autocomplete="off"
+              value="0%"
+            />
+          </div>
+        </div>
+
+        <button class="btnClose" onclick="closeParameterDialog()">
+          Cancel
+        </button>
+        <button class="btnClose" onclick="submit()">OK</button>
+      </div>
+
+      <!-- 圖表資訊表單 -->
+      <div
+        id="popupChartInfoContainer"
+        class="popup-container"
+        style="height: auto"
+      >
+        <h2>Chart Info</h2>
+        <div id="chartInfoBlock" style="overflow: auto; height: 90%"></div>
+        <button class="btnClose" onclick="closeChartInfoDialog()">
+          Cancel
+        </button>
+        <button class="btnClose" onclick="deleteChart()">Delete</button>
+      </div>
+
+      <script>
+        var Id = 1;
+        const chartList = [];
+        const popupContainer = document.getElementById("popupContainer");
+        const popupChartInfoContainer = document.getElementById(
+          "popupChartInfoContainer"
+        );
+        const chartBlock = document.getElementById("chartBlock");
+        const blockType = document.getElementById("block_type");
+        const parameter = document.getElementById("optionParameter");
+
+        // 開啟圖表參數設定表單
+        function openParameterDialog() {
+          popupContainer.style.display = "block";
+        }
+
+        // 關閉圖表參數設定表單
+        function closeParameterDialog() {
+          document.getElementById("name").value = "";
+          document.getElementById("description").value = "";
+          document.getElementById("block_type").value = "pie_chart";
+          popupContainer.style.display = "none";
+        }
+
+        // 開啟圖表資訊表單
+        function openChartInfoDialog(id) {
+          chartList.forEach((item) => {
+            const dom = item.getChartDom();
+            if (id === dom.id) {
+              document.getElementById("chartInfoBlock").innerText =
+                item.getChartInfo();
+            }
+          });
+          popupChartInfoContainer.style.display = "block";
+        }
+
+        // 關閉圖表資訊表單
+        function closeChartInfoDialog() {
+          popupChartInfoContainer.style.display = "none";
+        }
+
+        // 刪除圖表
+        function deleteChart() {
+          const myString = document.getElementById("chartInfoBlock").innerText;
+          const startText = "dom id:";
+          const endText = ",";
+
+          const startIndex = myString.indexOf(startText) + startText.length;
+          const endIndex = myString.indexOf(endText, startIndex);
+          const extractedText = myString.substring(startIndex, endIndex).trim();
+
+          chartList.forEach((item) => {
+            const dom = item.getChartDom();
+            if (extractedText === dom.id) {
+              item.destroy();
+
+              const indexToRemove = chartList.indexOf(item);
+              if (indexToRemove !== -1) {
+                chartList.splice(indexToRemove, 1);
+              }
+            }
+          });
+
+          popupChartInfoContainer.style.display = "none";
+        }
+
+        // 提交表單
+        function submit() {
+          var title = document.getElementById("name").value;
+          var description = document.getElementById("description").value;
+          var block_type = document.getElementById("block_type").value;
+
+          var background_color =
+            document.getElementById("background_color").value;
+          var tooltip = document.getElementById("tooltip").checked;
+          var title_font_size =
+            document.getElementById("title_font_size").value;
+          var title_font_color =
+            document.getElementById("title_font_color").value;
+          var title_top = document.getElementById("title_top").value;
+          var title_bottom = document.getElementById("title_bottom").value;
+          var title_left = document.getElementById("title_left").value;
+          var title_right = document.getElementById("title_right").value;
+
+          // console.log(title, description, block_type);
+
+          var type = "";
+
+          if (block_type === "pie_chart") {
+            type = "pie";
+          } else if (block_type === "line_chart") {
+            type = "line";
+          } else if (block_type === "bar_chart") {
+            type = "bar";
+          } else {
+            type = "undefined";
+          }
+
+          if (type !== "undefined") {
+            const chartId = "chart_" + Id;
+
+            // 建立dom
+            const newElement = document.createElement("div");
+            newElement.id = chartId;
+            newElement.style.width = "400px";
+            newElement.style.height = "550px";
+            newElement.style.background = background_color;
+            newElement.style.borderRadius = "10px";
+            newElement.style.margin = "10px";
+            newElement.style.padding = "10px";
+            newElement.onclick = function () {
+              openChartInfoDialog(this.id);
+            };
+            chartBlock.appendChild(newElement);
+
+            const newElementDOM = document.getElementById(newElement.id);
+
+            // 建立chart
+            var chart = new Chart({
+              type: type,
+              title: title,
+              dom: newElementDOM,
+              option: {},
+              onError: function (e) {
+                console.error(e);
+              },
+            });
+
+            // 修改chart參數設定
+            chart.setBackGroundColor(background_color);
+            chart.setTooltip(tooltip);
+            chart.setTitle(
+              title_font_size,
+              title_font_color,
+              title_top,
+              title_bottom,
+              title_left,
+              title_right
+            );
+            // chart.setGrid("100%", "70%", "1", "23%", "20%", "15%", "20%");
+            // chart.setLegend("vertical", "100%", "30%", "", "20", "10%", "", "rect", "20", "12", "13px", "blue", "", [0, 0, 0, 5]);
+            // chart.setXAxis(["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"], "(bbb)", "20", "#000000", "", [0, 0, 0, -10], "{value}aaa");
+            // chart.setYAxis("(ccc)", "20", "#FF0000", "", [0, 0, 0, -30], "{value}ddd");
+
+            // pie chart
+            let pieData = [
+              { name: "測試1", value: 30 },
+              { name: "測試2", value: 30 },
+              { name: "測試3", value: 40 },
+            ];
+            // line chart
+            let lineData = [
+              {
+                name: "測試1",
+                type: "line",
+                smooth: true,
+                data: [150, 250, 200, 700, 500, 600, 0, 150, 250, 50],
+              },
+              {
+                name: "測試2",
+                type: "line",
+                smooth: true,
+                data: [500, 150, 300, 700, 600, 100, 100, 600, 250, 50],
+              },
+              {
+                name: "測試3",
+                type: "line",
+                smooth: true,
+                data: [350, 150, 700, 300, 200, 100, 0, 500, 750, 150],
+              },
+            ];
+            // bar chart
+            let barData = {
+              xAxis: ["測試1", "測試2", "測試3"],
+              data: [{ value: 30 }, { value: 150 }, { value: 100 }],
+            };
+
+            //傳入數據，不傳入則使用預設數據
+            // chart.sendData(pieData);
+
+            //清除數據
+            // chart.clearData();
+
+            chartList.push(chart);
+            chart.draw(); // 開始畫圖
+
+            Id = Id + 1;
+          } else {
+            alert("undefined block type");
+          }
+
+          closeParameterDialog();
+        }
+
+        // 監聽block type下拉選單
+        // blockType.addEventListener("change", function () {});
+      </script>
+    </body>
+  </html>
+</html>

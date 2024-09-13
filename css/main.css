@@ -1,0 +1,91 @@
+body {
+  background: rgb(245, 245, 245);
+}
+
+.chartBlock {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.btnBlock {
+  width: 400px;
+  height: 550px;
+  margin: 10px;
+  padding: 10px;
+  background: rgb(199, 199, 199);
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btnDialog {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: rgb(160, 160, 160);
+}
+
+.popup-container {
+  width: 30%;
+  display: none;
+  border-radius: 10px;
+  background: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  position: absolute; /* 设置要垂直居中的 div 为绝对定位 */
+  top: 50%; /* 将 div 的上边距设置为视口高度的一半 */
+  left: 50%; /* 将 div 的左边距设置为视口宽度的一半 */
+  transform: translate(-50%, -50%); /* 使用 transform 移动 div，使其垂直居中 */
+  z-index: 9998;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+}
+
+input[type="submit"] {
+  width: 40%;
+  padding: 10px;
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  float: right;
+  cursor: pointer;
+}
+
+input[type="submit"]:hover {
+  background-color: #2980b9;
+}
+
+.btnClose {
+  width: 40%;
+  padding: 10px;
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btnClose:hover {
+  background-color: #2980b9;
+}
