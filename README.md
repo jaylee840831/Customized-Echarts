@@ -17,10 +17,10 @@ chart module 可以運用在 HTML 或是前端框架畫出圓餅圖(Pie Chart)�
 
 ## Demo
 
-main.html 可供參考
+打開main.html即可使用範例
 
 ## How to use?
-在你要用的地方引入 chart.min.js
+已打包成js檔放在dist資料夾內，在你要用的地方引入 chart.min.js
 ```
 <script type="text/javascript" src="./dist/chart.min.js"></script>
 
