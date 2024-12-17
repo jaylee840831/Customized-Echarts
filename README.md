@@ -21,7 +21,7 @@ chart module 可以運用在 HTML 或是前端框架畫出圓餅圖(Pie Chart)�
 <img src="https://github.com/jaylee840831/Customized-Echarts/blob/master/demo.png" />
 
 ## How to use?
-已打包成js檔放在dist資料夾內，在你要用的地方引入 chart.min.js
+已壓縮js檔放在dist資料夾內，在你要用的地方引入 chart.min.js
 ```
 <script type="text/javascript" src="./dist/chart.min.js"></script>
 
