@@ -1,6 +1,6 @@
 # chart module
 
-chart module 可以運用在 HTML 或是前端框架畫出圓餅圖(Pie Chart)、曲線圖(Line Chart)、長條圖(Bar Chart)、表格(table)、影像(video)
+chart module 是基於 Echarts，把調整參數的過程封裝成Object和Function，可以運用在 HTML 或是前端框架畫出圓餅圖(Pie Chart)、曲線圖(Line Chart)、長條圖(Bar Chart)、表格(table)、影像(video)
 
 ## Parameter
 
